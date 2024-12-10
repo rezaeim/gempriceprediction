@@ -1,0 +1,52 @@
+[ 2024-12-10 14:42:29,693 ] 97 werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.0.0.53:5000
+[ 2024-12-10 14:42:29,693 ] 97 werkzeug - INFO - [33mPress CTRL+C to quit[0m
+[ 2024-12-10 14:46:04,044 ] 97 werkzeug - INFO - 127.0.0.1 - - [10/Dec/2024 14:46:04] "[33mGET /predictdata HTTP/1.1[0m" 404 -
+[ 2024-12-10 14:46:04,889 ] 97 werkzeug - INFO - 127.0.0.1 - - [10/Dec/2024 14:46:04] "[33mGET /predictdata HTTP/1.1[0m" 404 -
+[ 2024-12-10 14:46:10,775 ] 97 werkzeug - INFO - 127.0.0.1 - - [10/Dec/2024 14:46:10] "GET /predict HTTP/1.1" 200 -
+[ 2024-12-10 14:46:10,823 ] 97 werkzeug - INFO - 127.0.0.1 - - [10/Dec/2024 14:46:10] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+[ 2024-12-10 14:46:23,166 ] 61 root - INFO - Dataframe Gathered
+[ 2024-12-10 14:46:37,480 ] 93 root - INFO - Exception Occured in load_object function utils
+[ 2024-12-10 14:46:37,481 ] 21 root - INFO - Exception occured in prediction pipeline
+[ 2024-12-10 14:46:37,481 ] 838 application - ERROR - Exception on /predict [POST]
+Traceback (most recent call last):
+  File "/Users/Mehrdadi/Desktop/gempriceprediction/src/utils.py", line 91, in load_object
+    return dill.load(file_obj)
+  File "/Users/Mehrdadi/anaconda3/envs/gemenv/lib/python3.8/site-packages/dill/_dill.py", line 297, in load
+    return Unpickler(file, ignore=ignore, **kwds).load()
+  File "/Users/Mehrdadi/anaconda3/envs/gemenv/lib/python3.8/site-packages/dill/_dill.py", line 452, in load
+    obj = StockUnpickler.load(self)
+  File "/Users/Mehrdadi/anaconda3/envs/gemenv/lib/python3.8/site-packages/dill/_dill.py", line 442, in find_class
+    return StockUnpickler.find_class(self, module, name)
+ModuleNotFoundError: No module named 'catboost'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/Mehrdadi/Desktop/gempriceprediction/src/pipeline/predict_pipeline.py", line 16, in predict
+    model = load_object(file_path=model_path)
+  File "/Users/Mehrdadi/Desktop/gempriceprediction/src/utils.py", line 94, in load_object
+    raise CustomException(e,sys)
+src.exception.CustomException: Error occured in python script name [/Users/Mehrdadi/Desktop/gempriceprediction/src/utils.py] line number [91] error message [No module named 'catboost']
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/Mehrdadi/anaconda3/envs/gemenv/lib/python3.8/site-packages/flask/app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/Mehrdadi/anaconda3/envs/gemenv/lib/python3.8/site-packages/flask/app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/Mehrdadi/anaconda3/envs/gemenv/lib/python3.8/site-packages/flask/app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/Mehrdadi/anaconda3/envs/gemenv/lib/python3.8/site-packages/flask/app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+  File "/Users/Mehrdadi/anaconda3/envs/gemenv/lib/python3.8/site-packages/flask_cors/decorator.py", line 130, in wrapped_function
+    resp = make_response(f(*args, **kwargs))
+  File "application.py", line 37, in predict_datapoint
+    pred = predict_pipeline.predict(pred_df)
+  File "/Users/Mehrdadi/Desktop/gempriceprediction/src/pipeline/predict_pipeline.py", line 22, in predict
+    raise CustomException(e,sys)
+src.exception.CustomException: Error occured in python script name [/Users/Mehrdadi/Desktop/gempriceprediction/src/pipeline/predict_pipeline.py] line number [16] error message [Error occured in python script name [/Users/Mehrdadi/Desktop/gempriceprediction/src/utils.py] line number [91] error message [No module named 'catboost']]
+[ 2024-12-10 14:46:37,487 ] 97 werkzeug - INFO - 127.0.0.1 - - [10/Dec/2024 14:46:37] "[35m[1mPOST /predict HTTP/1.1[0m" 500 -
